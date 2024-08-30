@@ -1,41 +1,85 @@
 document.addEventListener("DOMContentLoaded", function() {
-    function checkAnswer(questionNumber) {
-        const correctAnswers = {
-            1: ['b'],  // Correct answer for question 1
-            2: ['b', 'c', 'd']  // Correct answers for question 2 (multiple correct answers)
-        };
+    let questions = [];
+    let currentQuestionIndex = 0;
 
-        const form = document.getElementById(`question-form-${questionNumber}`);
-        const result = document.getElementById(`result-${questionNumber}`);
+    // Load questions from JSON file
+    fetch('questions.json')
+        .then(response => response.json())
+        .then(data => {
+            questions = data;
+            displayQuestion(questions[currentQuestionIndex]);
+        })
+        .catch(error => console.error('Error loading questions:', error));
+
+    function displayQuestion(question) {
+        const questionContainer = document.getElementById('question-container');
+        questionContainer.innerHTML = '';
+
+        const form = document.createElement('form');
+        form.id = `question-form-${question.id}`;
+
+        const questionText = document.createElement('p');
+        questionText.textContent = `${question.id}. ${question.question}`;
+        form.appendChild(questionText);
+
+        Object.keys(question.options).forEach(key => {
+            const div = document.createElement('div');
+
+            const input = document.createElement('input');
+            input.type = question.type === 'single' ? 'radio' : 'checkbox';
+            input.name = 'answer';
+            input.value = key;
+            input.id = `option-${question.id}${key}`;
+            div.appendChild(input);
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `option-${question.id}${key}`);
+            label.textContent = `${key}. ${question.options[key]}`;
+            div.appendChild(label);
+
+            form.appendChild(div);
+        });
+
+        const submitButton = document.createElement('button');
+        submitButton.type = 'button';
+        submitButton.textContent = 'Submit Answer';
+        submitButton.onclick = () => checkAnswer(question);
+        form.appendChild(submitButton);
+
+        const result = document.createElement('p');
+        result.id = `result-${question.id}`;
+        form.appendChild(result);
+
+        questionContainer.appendChild(form);
+
+        if (currentQuestionIndex < questions.length - 1) {
+            const nextButton = document.createElement('button');
+            nextButton.type = 'button';
+            nextButton.textContent = 'Next';
+            nextButton.onclick = () => {
+                currentQuestionIndex++;
+                displayQuestion(questions[currentQuestionIndex]);
+            };
+            form.appendChild(nextButton);
+        }
+    }
+
+    function checkAnswer(question) {
+        const form = document.getElementById(`question-form-${question.id}`);
+        const result = document.getElementById(`result-${question.id}`);
         const selectedOptions = Array.from(form.elements['answer'])
-                                    .filter(option => option.checked || option.type === 'radio' && option.checked)
+                                    .filter(option => option.checked)
                                     .map(option => option.value);
-        
-        const correctSelected = selectedOptions.every(value => correctAnswers[questionNumber].includes(value)) &&
-                                correctAnswers[questionNumber].length === selectedOptions.length;
+
+        const correctSelected = selectedOptions.every(value => question.correctAnswers.includes(value)) &&
+                                question.correctAnswers.length === selectedOptions.length;
 
         if (correctSelected) {
             result.textContent = "Excellent!";
             result.style.color = "green";
         } else {
-            result.textContent = `Incorrect. The correct answers are: ${correctAnswers[questionNumber].join(', ')}.`;
+            result.textContent = `Incorrect. The correct answers are: ${question.correctAnswers.join(', ')}.`;
             result.style.color = "red";
         }
     }
-
-    function showNextQuestion(nextQuestionNumber) {
-        // Hide all questions
-        const questionContainers = document.querySelectorAll('.question-container');
-        questionContainers.forEach(container => container.classList.remove('active'));
-        
-        // Show the next question
-        document.getElementById(`question-${nextQuestionNumber}`).classList.add('active');
-    }
-
-    // Show the first question on load
-    showNextQuestion(1);
-
-    // Make functions accessible globally
-    window.checkAnswer = checkAnswer;
-    window.showNextQuestion = showNextQuestion;
 });
