@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "question": "Which statement describes a difference between the Cisco ASA IOS CLI feature and the router IOS CLI feature?",
+        "type": "single",
+        "options": {
+            "a": "ASA uses the ? command whereas a router uses the help command to receive help on a brief description and the syntax of a command.",
+            "b": "To use a show command in a general configuration mode, ASA can use the command directly whereas a router will need to enter the do command before issuing the show command.",
+            "c": "To complete a partially typed command, ASA uses the Ctrl+Tab key combination whereas a router uses the Tab key.",
+            "d": "To indicate the CLI EXEC mode, ASA uses the % symbol whereas a router uses the # symbol."
+        },
+        "correctAnswers": ["b"]
+    },
+    {
+        "id": 2,
+        "question": "What are the three core components of the Cisco Secure Data Center solution? (Choose three.)",
+        "type": "multiple",
+        "options": {
+            "a": "Mesh network",
+            "b": "Secure segmentation",
+            "c": "Visibility",
+            "d": "Threat defense",
+            "e": "Servers",
+            "f": "Infrastructure"
+        },
+        "correctAnswers": ["b", "c", "d"]
+    }
+    
+]
