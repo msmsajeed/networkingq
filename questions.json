@@ -24,6 +24,21 @@
             "f": "Infrastructure"
         },
         "correctAnswers": ["b", "c", "d"]
+    },
+    {
+        
+            "id": 3,
+            "question": "What provides both secure segmentation and threat defense in a Secure Data Center solution?",
+            "type": "single",
+            "options": {
+                "a": "Cisco Security Manager software",
+                "b": "AAA server",
+                "c": "Adaptive Security Appliance",
+                "d": "intrusion prevention system"
+            },
+            "correctAnswers": ["c"]
+        
+        
     }
     
 ]
