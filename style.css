@@ -17,15 +17,6 @@ main {
     padding: 20px;
 }
 
-#question-container {
-    background-color: white;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
 button {
     margin-top: 20px;
     padding: 10px 15px;
@@ -43,4 +34,12 @@ button:hover {
 #result {
     margin-top: 20px;
     font-size: 18px;
+}
+
+.question-container {
+    display: none;
+}
+
+.question-container.active {
+    display: block;
 }
